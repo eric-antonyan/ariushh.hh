@@ -6,7 +6,8 @@
   "scripts": {
     "start": "remotion studio",
     "assets": "python3 scripts/make_voice.py && python3 scripts/make_audio.py",
-    "render": "remotion render Oct27Reel out/oct27-1999-reel-60fps.mp4"
+    "render": "remotion render Oct27Reel out/oct27-1999-reel-60fps.mp4",
+    "render:cinematic": "remotion render Oct27Cinematic out/oct27-1999-cinematic-60fps.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.539",
