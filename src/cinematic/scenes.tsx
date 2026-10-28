@@ -52,7 +52,14 @@ export const CIntro: React.FC<Props> = ({scene}) => {
 };
 
 // ---------------------------------------------------------------- Map
-const map = mapData as {width: number; height: number; yerevan: [number, number]; countries: {iso: string; name: string; d: string}[]};
+const map = mapData as {
+  width: number;
+  height: number;
+  yerevan: [number, number];
+  metsHayk: string;
+  metsHaykLabel: [number, number];
+  countries: {iso: string; name: string; d: string}[];
+};
 
 const LineParliament: React.FC<{progress: number; width: number}> = ({progress, width}) => {
   const dash = 2400;
@@ -74,22 +81,42 @@ export const CMap: React.FC<Props> = ({scene}) => {
   const frame = useFrame();
   const [l1, l2] = scene.lines;
   const [yx, yy] = map.yerevan;
-  const z = interpolate(frame, [0, 120], [0, 1], {...clamp, easing: ease});
-  const vw = 1500 + (270 - 1500) * z;
+  // Push in to historical Greater Armenia (Mets Hayk), then on to today's Armenia and Yerevan.
+  const z1 = interpolate(frame, [0, 80], [0, 1], {...clamp, easing: ease});
+  const z2 = interpolate(frame, [90, 140], [0, 1], {...clamp, easing: ease});
+  const vw = 1500 + (600 - 1500) * z1 + (270 - 600) * z2;
   const vh = vw * (1920 / 1080);
-  const cx = yx;
-  const cy = yy + vh * 0.08;
-  const draw = interpolate(frame, [50, 110], [0, 1], clamp);
+  const hx = (43.9 - 15) * 40 * Math.cos((41 * Math.PI) / 180);
+  const hy = (58 - 39.3) * 40;
+  const cx = hx + (yx - hx) * z2;
+  const cy = hy + (yy - hy) * z2 + vh * 0.08;
+  const hayk = interpolate(frame, [30, 70], [0, 1], clamp);
+  const draw = interpolate(frame, [95, 135], [0, 1], clamp);
   const glow = 0.6 + 0.4 * Math.sin(frame / 10);
   const dim = interpolate(frame, [l2.start - 10, l2.start + 20], [1, 0.35], clamp);
   const coords = '40°11′ Հս · 44°31′ Աա';
-  const shown = Math.max(0, Math.floor((frame - 115) / 2));
+  const shown = Math.max(0, Math.floor((frame - 135) / 2));
   return (
     <AbsoluteFill style={{background: '#07080c'}}>
       <svg width={W} height={1920} viewBox={`${cx - vw / 2} ${cy - vh / 2} ${vw} ${vh}`} style={{opacity: dim}}>
         {map.countries.map((c) =>
           c.iso === 'ARM' ? null : <path key={c.iso + c.name} d={c.d} fill="#0e1016" stroke={cine.goldSoft} strokeOpacity={0.35} strokeWidth={vw / 900} />,
         )}
+        <path
+          d={map.metsHayk}
+          fill={cine.goldSoft}
+          fillOpacity={0.2 * hayk}
+          stroke={cine.goldSoft}
+          strokeOpacity={0.85 * hayk}
+          strokeWidth={vw / 600}
+          strokeDasharray={`${vw / 140} ${vw / 200}`}
+        />
+        <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1]} textAnchor="middle" fontFamily={serif} fontWeight={500} fontStyle="italic" fontSize={vw / 22} fill={cine.cream} opacity={0.75 * hayk * (1 - 0.8 * z2)}>
+          Մեծ Հայք
+        </text>
+        <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1] + vw / 30} textAnchor="middle" fontFamily={sans} fontWeight={500} fontSize={vw / 75} letterSpacing={vw / 500} fill={cine.goldSoft} opacity={hayk * (1 - 0.8 * z2)}>
+          ՊԱՏՄԱԿԱՆ ՏԱՐԱԾՔ · ՄՈՏԱՎՈՐ
+        </text>
         {map.countries
           .filter((c) => c.iso === 'ARM')
           .map((c) => (
@@ -110,7 +137,7 @@ export const CMap: React.FC<Props> = ({scene}) => {
         <circle cx={yx} cy={yy} r={vw / 220} fill={cine.cream} opacity={draw} />
       </svg>
       <div style={{position: 'absolute', top: 1040, left: 0, right: 0, textAlign: 'center', opacity: (dim - 0.35) / 0.65}}>
-        <Resolve delay={100}>
+        <Resolve delay={120}>
           <div style={{fontFamily: serif, fontWeight: 500, fontSize: 84, color: cine.cream}}>Երևան</div>
         </Resolve>
         <div style={{fontFamily: sans, fontWeight: 500, fontSize: 24, color: cine.gold, letterSpacing: '0.2em', marginTop: 12}}>{coords.slice(0, shown)}</div>
@@ -126,7 +153,8 @@ export const CMap: React.FC<Props> = ({scene}) => {
       )}
       <Chapter n={1} title="Ազգային ժողով" />
       <Sfx name="whoosh" at={0} volume={0.2} />
-      <Sfx name="bell" at={100} volume={0.15} />
+      <Sfx name="bell" at={40} volume={0.12} />
+      <Sfx name="bell" at={120} volume={0.15} />
       <Sfx name="whoosh" at={l1.start + l1.duration} volume={0.15} />
     </AbsoluteFill>
   );
