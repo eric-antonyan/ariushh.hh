@@ -11,7 +11,8 @@ import {PHOTOS} from './photos';
 import {DAftermath, DAttack, DIntro, DLeaders, DMap, DMemorial, DSiege, DVictims} from './scenes';
 
 const voiceCredit = () => {
-  const v = timeline.scenes.flatMap((s) => s.lines).find((l) => l.voice)?.voice;
+  const line = timeline.scenes.flatMap((s) => s.lines)[0];
+  const v = line?.voice ?? (line?.human ? 'human' : 'espeak');
   return v === 'azure' ? 'Ձայն՝ Microsoft Azure (Հայկ)' : v === 'human' ? 'Պատմում է՝ հեղինակը' : 'Ձայն՝ eSpeak NG';
 };
 

@@ -4,7 +4,6 @@ import data from '../data/doc-photos.json';
 export type PhotoId =
   | 'collage'
   | 'memorialStamp'
-  | 'leadersStamps'
   | 'leaders1999'
   | 'demirchyan1999'
   | 'sargsyan1999'

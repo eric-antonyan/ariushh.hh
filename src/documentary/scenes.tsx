@@ -2,7 +2,7 @@ import React from 'react';
 import {AbsoluteFill, interpolate} from 'remotion';
 import {GoldLine, Resolve, SmallCaps} from '../cinematic/fx';
 import {CMap} from '../cinematic/scenes';
-import {cine, sans, serif} from '../cinematic/theme';
+import {cine, serif} from '../cinematic/theme';
 import {clamp, Sfx, useShake} from '../fx';
 import {Candle} from '../illustrations';
 import {VICTIMS} from '../scenes/Victims';
@@ -130,20 +130,10 @@ export const DAttack: React.FC<Props> = ({scene}) => {
 
 // ---------------------------------------------------------------- Victims: the 2000 memorial stamp with all eight portraits
 export const DVictims: React.FC<Props> = ({scene}) => {
-  const frame = useFrame();
-  const start = scene.lines[0].start;
   return (
     <AbsoluteFill>
       <Shots shots={[{photo: 'memorialStamp', from: 0, to: end(scene), zoom: [1.0, 1.08], pan: [[50, 50], [55, 45]], label: ['8 զոհ', 'Հուշադրոշմ · Հայփոստ, 2000']}]} />
       <ChapterTag n="III" title="Զոհերը" />
-      <div style={{position: 'absolute', top: 1180, left: 70, right: 70, columnCount: 2, columnGap: 40}}>
-        {VICTIMS.map(([name, role], i) => (
-          <div key={name} style={{opacity: interpolate(frame - start - 20 - i * 8, [0, 15], [0, 1], clamp), marginBottom: 12, breakInside: 'avoid'}}>
-            <div style={{fontFamily: serif, fontWeight: 500, fontSize: 30, color: cine.cream}}>{name}</div>
-            <div style={{fontFamily: sans, fontWeight: 500, fontSize: 15, color: cine.gold, letterSpacing: '0.15em', textTransform: 'uppercase'}}>{role}</div>
-          </div>
-        ))}
-      </div>
       <Sfx name="bell" at={4} volume={0.25} />
     </AbsoluteFill>
   );
@@ -176,7 +166,7 @@ export const DAftermath: React.FC<Props> = ({scene}) => {
         shots={[
           {photo: 'parliament', from: 0, to: l2.start, zoom: [1.05, 1.15], pan: [[50, 50], [55, 50]], tone: 'bw', label: ['2003', 'Ցմահ ազատազրկում']},
           {photo: 'leaders1999', from: l2.start, to: l3.start, zoom: [1.0, 1.12], pan: [[50, 30], [50, 25]], tone: 'bw', label: ['Մեկ օրում', 'Երկու առաջնորդ']},
-          {photo: 'leadersStamps', from: l3.start, to: end(scene), zoom: [1.0, 1.1], pan: [[50, 50], [50, 45]], label: ['Անպատասխան հարցեր', 'Ո՞վ էր կանգնած հանցագործների թիկունքում']},
+          {photo: 'apc', from: l3.start, to: end(scene), zoom: [1.05, 1.2], pan: [[40, 50], [55, 50]], tone: 'bw', label: ['Անպատասխան հարցեր', 'Ո՞վ էր կանգնած հանցագործների թիկունքում']},
         ]}
       />
       <ChapterTag n="V" title="Հետևանքները" />
