@@ -1,15 +1,10 @@
 import {Composition} from 'remotion';
-import {Oct27, TOTAL_FRAMES} from './Oct27';
+import {timeline} from './timeline';
+import {Video} from './Video';
 
-export const RemotionRoot: React.FC = () => {
-  return (
-    <Composition
-      id="Oct27"
-      component={Oct27}
-      durationInFrames={TOTAL_FRAMES}
-      fps={30}
-      width={1920}
-      height={1080}
-    />
-  );
-};
+export const RemotionRoot: React.FC = () => (
+  <>
+    <Composition id="Oct27" component={Video} durationInFrames={timeline.total} fps={timeline.fps} width={1920} height={1080} />
+    <Composition id="Oct27Reel" component={Video} durationInFrames={timeline.total} fps={timeline.fps} width={1080} height={1920} />
+  </>
+);
