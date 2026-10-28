@@ -16,12 +16,13 @@ const musicVolume = (f: number) => {
   return (0.5 - 0.3 * duck) * fadeOut;
 };
 
-export const Soundtrack: React.FC = () => {
+// `music` is a file in public/; `base` is the music volume when nobody is speaking.
+export const Soundtrack: React.FC<{music?: string; base?: number}> = ({music = 'audio/music.wav', base = 0.5}) => {
   const {fps} = useVideoConfig();
   const toFrames = useToFrames();
   return (
     <>
-      <Audio src={staticFile('audio/music.wav')} volume={(f) => musicVolume((f * BASE_FPS) / fps)} />
+      <Audio src={staticFile(music)} volume={(f) => (musicVolume((f * BASE_FPS) / fps) * base) / 0.5} />
       {voice.map((v) => (
         <Sequence key={v.src} from={toFrames(v.from)} durationInFrames={toFrames(v.duration)} layout="none">
           <Audio src={staticFile(v.src)} volume={1} />

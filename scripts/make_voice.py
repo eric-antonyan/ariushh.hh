@@ -1,8 +1,14 @@
 """Generates the narration audio and src/data/timeline.json from src/data/narration.json.
 
-For each line it uses a human recording from public/audio/voice-human/<scene>_<n>.(wav|mp3|m4a)
-if one exists, otherwise synthesises the line with eSpeak NG (Armenian voice).
+Voice sources (`--voice`, default `auto`):
+- azure:  Microsoft Azure neural voice (hy-AM-HaykNeural by default). Needs AZURE_SPEECH_KEY and
+          AZURE_SPEECH_REGION in the environment (AZURE_SPEECH_VOICE overrides the voice). Also records
+          word timings so captions follow the speech exactly.
+- human:  recordings in public/audio/voice-human/<scene>_<n>.(wav|mp3|m4a)
+- espeak: eSpeak NG Armenian (offline fallback)
+`auto` picks azure when a key is set, else human recordings where they exist, else eSpeak.
 """
+import argparse
 import json
 import os
 import subprocess
@@ -51,7 +57,40 @@ def synthesise(text, dest):
     os.remove(raw)
 
 
+def synthesise_azure(text, dest):
+    """Returns word timings [(seconds, seconds, word)] while writing the line to `dest`."""
+    import azure.cognitiveservices.speech as speechsdk
+
+    config = speechsdk.SpeechConfig(subscription=os.environ['AZURE_SPEECH_KEY'], region=os.environ['AZURE_SPEECH_REGION'])
+    config.set_speech_synthesis_output_format(speechsdk.SpeechSynthesisOutputFormat.Riff48Khz16BitMonoPcm)
+    voice = os.environ.get('AZURE_SPEECH_VOICE', 'hy-AM-HaykNeural')
+    raw = dest + '.raw.wav'
+    synth = speechsdk.SpeechSynthesizer(speech_config=config, audio_config=speechsdk.audio.AudioOutputConfig(filename=raw))
+    words = []
+    synth.synthesis_word_boundary.connect(
+        lambda e: words.append((e.audio_offset / 1e7, e.duration.total_seconds(), e.text))
+        if e.boundary_type == speechsdk.SpeechSynthesisBoundaryType.Word
+        else None
+    )
+    ssml = (
+        '<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="hy-AM">'
+        f'<voice name="{voice}"><prosody rate="-8%">{text}</prosody></voice></speak>'
+    )
+    result = synth.speak_ssml_async(ssml).get()
+    if result.reason != speechsdk.ResultReason.SynthesizingAudioCompleted:
+        raise SystemExit(f'Azure synthesis failed: {result.cancellation_details.error_details}')
+    del synth
+    subprocess.check_call(['ffmpeg', '-v', 'error', '-y', '-i', raw, '-af', 'aresample=44100,loudnorm=I=-16:TP=-1.5', '-ac', '2', dest])
+    os.remove(raw)
+    return words
+
+
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--voice', choices=['auto', 'azure', 'human', 'espeak'], default='auto')
+    voice = parser.parse_args().voice
+    if voice == 'auto':
+        voice = 'azure' if os.environ.get('AZURE_SPEECH_KEY') else 'human'
     os.makedirs(OUT_DIR, exist_ok=True)
     narration = json.load(open(os.path.join(ROOT, 'src', 'data', 'narration.json')))
     scenes = []
@@ -62,15 +101,23 @@ def main():
         lines = []
         for i, line in enumerate(scene['lines']):
             name = f'{sid}_{i + 1}'
-            src = human_recording(name)
+            src = human_recording(name) if voice == 'human' else None
+            words = None
             if src:
                 rel = os.path.relpath(src, PUB)
             else:
                 dest = os.path.join(OUT_DIR, f'{name}.wav')
-                synthesise(line.get('tts', line['text']), dest)
+                if voice == 'azure':
+                    words = synthesise_azure(line.get('tts', line['text']), dest)
+                else:
+                    synthesise(line.get('tts', line['text']), dest)
                 rel = os.path.relpath(dest, PUB)
             frames = int(round(duration(os.path.join(PUB, rel)) * FPS)) + 2
-            lines.append({'text': line['text'], 'audio': rel, 'start': t, 'duration': frames, 'human': bool(src)})
+            entry = {'text': line['text'], 'audio': rel, 'start': t, 'duration': frames, 'human': bool(src), 'voice': 'human' if src else voice}
+            # Word timings only line up with the captions when the spoken and shown text match.
+            if words and 'tts' not in line:
+                entry['words'] = [[round(a * FPS, 1), round(d * FPS, 1)] for a, d, _ in words]
+            lines.append(entry)
             t += frames + GAP
         t += TAIL.get(sid, DEFAULT_TAIL) - GAP
         scenes.append({'id': sid, 'from': cursor, 'duration': t, 'lines': lines})

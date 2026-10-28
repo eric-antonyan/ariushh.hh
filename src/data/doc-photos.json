@@ -1,0 +1,114 @@
+{
+ "collage": {
+  "file": "photos/doc/collage.jpg",
+  "credit": "անհայտ հեղինակ · CC BY-SA 4.0",
+  "aspect": 1.5098,
+  "source": "https://commons.wikimedia.org/wiki/File:Armenian_Parliament_Shooting_1999.jpg",
+  "license": "CC BY-SA 4.0"
+ },
+ "memorialStamp": {
+  "file": "photos/doc/memorialStamp.jpg",
+  "credit": "Ministry of Transport and Communication of Armenia · հանրային սեփականություն",
+  "aspect": 1.3675,
+  "source": "https://commons.wikimedia.org/wiki/File:ArmenianStamps-175a.jpg",
+  "license": "Public domain"
+ },
+ "leadersStamps": {
+  "file": "photos/doc/leadersStamps.jpg",
+  "credit": "Post of Armenia · հանրային սեփականություն",
+  "aspect": 0.7315,
+  "source": "https://commons.wikimedia.org/wiki/File:Stamp_of_Armenia_sl174-175.jpg",
+  "license": "Public domain"
+ },
+ "leaders1999": {
+  "file": "photos/doc/leaders1999.jpg",
+  "credit": "Aravot Daily · CC BY-SA 3.0",
+  "aspect": 1.4112,
+  "source": "https://commons.wikimedia.org/wiki/File:Karen_Demirchyan,_Vazgen_Sargsyan_1999.png",
+  "license": "CC BY-SA 3.0"
+ },
+ "demirchyan1999": {
+  "file": "photos/doc/demirchyan1999.jpg",
+  "credit": "Aravot Daily · CC BY-SA 3.0",
+  "aspect": 0.7663,
+  "source": "https://commons.wikimedia.org/wiki/File:Karen_Demirchyan_1999.png",
+  "license": "CC BY-SA 3.0"
+ },
+ "sargsyan1999": {
+  "file": "photos/doc/sargsyan1999.jpg",
+  "credit": "Aravot Daily · CC BY-SA 3.0",
+  "aspect": 0.7643,
+  "source": "https://commons.wikimedia.org/wiki/File:Vazgen_Sargsyan_1999_(cropped).png",
+  "license": "CC BY-SA 3.0"
+ },
+ "sargsyanUniform": {
+  "file": "photos/doc/sargsyanUniform.jpg",
+  "credit": "Hovhannes Armenakyan · CC BY-SA 3.0",
+  "aspect": 0.8272,
+  "source": "https://commons.wikimedia.org/wiki/File:Վազգեն_Սարգսյան.jpg",
+  "license": "CC BY-SA 3.0"
+ },
+ "parliament": {
+  "file": "photos/doc/parliament.jpg",
+  "credit": "Armineaghayan · CC BY-SA 4.0",
+  "aspect": 1.7628,
+  "source": "https://commons.wikimedia.org/wiki/File:National_Assembly_of_Armenia_by_ArmAg_(3).jpg",
+  "license": "CC BY-SA 4.0"
+ },
+ "parliamentBw": {
+  "file": "photos/doc/parliamentBw.jpg",
+  "credit": "Ավետիսյան91 · CC BY-SA 4.0",
+  "aspect": 1.3333,
+  "source": "https://commons.wikimedia.org/wiki/File:National_Assembly_of_Armenia,_black-white.jpg",
+  "license": "CC BY-SA 4.0"
+ },
+ "apc": {
+  "file": "photos/doc/apc.jpg",
+  "credit": "RaffiKojian · CC BY 4.0",
+  "aspect": 1.4899,
+  "source": "https://commons.wikimedia.org/wiki/File:Raffi_kojian-1999_parliament_shootings-0196.jpg",
+  "license": "CC BY 4.0"
+ },
+ "crowd": {
+  "file": "photos/doc/crowd.jpg",
+  "credit": "RaffiKojian · CC BY 4.0",
+  "aspect": 1.517,
+  "source": "https://commons.wikimedia.org/wiki/File:Raffi_kojian-1999_parliament_shootings-0204.jpg",
+  "license": "CC BY 4.0"
+ },
+ "running": {
+  "file": "photos/doc/running.jpg",
+  "credit": "RaffiKojian · CC BY 4.0",
+  "aspect": 1.4966,
+  "source": "https://commons.wikimedia.org/wiki/File:Raffi_kojian-1999_parliament_shootings-0207.jpg",
+  "license": "CC BY 4.0"
+ },
+ "apc102": {
+  "file": "photos/doc/apc102.jpg",
+  "credit": "RaffiKojian · CC BY 4.0",
+  "aspect": 1.5034,
+  "source": "https://commons.wikimedia.org/wiki/File:Raffi_kojian-1999_parliament_shootings-0208.jpg",
+  "license": "CC BY 4.0"
+ },
+ "release": {
+  "file": "photos/doc/release.jpg",
+  "credit": "RaffiKojian · CC BY 4.0",
+  "aspect": 1.5205,
+  "source": "https://commons.wikimedia.org/wiki/File:Raffi_kojian-1999_parliament_shootings-0214.jpg",
+  "license": "CC BY 4.0"
+ },
+ "monument": {
+  "file": "photos/doc/monument.jpg",
+  "credit": "Beko · CC BY-SA 4.0",
+  "aspect": 1.1052,
+  "source": "https://commons.wikimedia.org/wiki/File:«Բիբլիական_Դավիթը»_հուշարձան_01.jpg",
+  "license": "CC BY-SA 4.0"
+ },
+ "monument2": {
+  "file": "photos/doc/monument2.jpg",
+  "credit": "Beko · CC BY-SA 4.0",
+  "aspect": 0.7658,
+  "source": "https://commons.wikimedia.org/wiki/File:«Բիբլիական_Դավիթը»_հուշարձան_02.jpg",
+  "license": "CC BY-SA 4.0"
+ }
+}

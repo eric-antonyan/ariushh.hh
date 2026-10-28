@@ -38,19 +38,27 @@ export const Captions: React.FC<{variant?: 'cartoon' | 'cinematic'}> = ({variant
   const weights = words.map((w) => w.length + 2);
   const total = weights.reduce((a, b) => a + b, 0);
   const progress = Math.min(0.999, (frame - line.start) / line.duration) * total;
+  // Exact word timings from the TTS engine when they match the shown words, else estimated from length.
+  const timed = line.words && line.words.length === words.length ? line.words : null;
   let acc = 0;
   let current = words.length - 1;
-  for (let i = 0; i < words.length; i++) {
-    acc += weights[i];
-    if (progress < acc) {
-      current = i;
-      break;
+  if (timed) {
+    current = Math.max(0, timed.findIndex(([at], i) => i === timed.length - 1 || frame - line.start < timed[i + 1][0]));
+  } else {
+    for (let i = 0; i < words.length; i++) {
+      acc += weights[i];
+      if (progress < acc) {
+        current = i;
+        break;
+      }
     }
   }
   const chunks = chunk(words, pick(vertical, 40, 52));
   const ci = chunks.findIndex((c) => c.includes(current));
   const chunkStartWord = chunks[ci][0];
-  const chunkStartFrame = line.start + (weights.slice(0, chunkStartWord).reduce((a, b) => a + b, 0) / total) * line.duration;
+  const chunkStartFrame = timed
+    ? line.start + timed[chunkStartWord][0]
+    : line.start + (weights.slice(0, chunkStartWord).reduce((a, b) => a + b, 0) / total) * line.duration;
   const pop = cinematic ? 1 : spring({frame: frame - chunkStartFrame, fps: BASE_FPS, config: {damping: 12, stiffness: 200}});
   const fadeIn = cinematic ? Math.min(1, (frame - chunkStartFrame) / 8) : 1;
 

@@ -3,6 +3,7 @@ import {BASE_FPS} from './time';
 import {timeline} from './timeline';
 import {Video} from './Video';
 import {CinematicVideo} from './cinematic/CinematicVideo';
+import {DocumentaryVideo} from './documentary/DocumentaryVideo';
 
 const FPS = 60;
 
@@ -12,6 +13,7 @@ const duration = Math.round((timeline.total * FPS) / BASE_FPS);
 export const RemotionRoot: React.FC = () => (
   <>
     <Composition id="Oct27Reel" component={Video} durationInFrames={duration} fps={FPS} width={1080} height={1920} />
+    <Composition id="Oct27Documentary" component={DocumentaryVideo} durationInFrames={duration} fps={FPS} width={1080} height={1920} />
     <Composition id="Oct27Cinematic" component={CinematicVideo} durationInFrames={duration} fps={FPS} width={1080} height={1920} />
   </>
 );
