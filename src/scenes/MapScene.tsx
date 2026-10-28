@@ -4,19 +4,15 @@ import {AbsoluteFill, Easing, interpolate} from 'remotion';
 import mapData from '../data/map.json';
 import {clamp, Label, Pop, Sfx, useSpring} from '../fx';
 import {BallotBox, Parliament} from '../illustrations';
+import {MetsHaykLayer} from '../MetsHaykLayer';
 import {pick, useLayout} from '../layout';
 import {colors, font} from '../theme';
 import {SceneData} from '../timeline';
 
-const map = mapData as {
+const map = mapData as unknown as {
   width: number;
   height: number;
   yerevan: [number, number];
-  metsHayk: string;
-  metsHaykProvinces: string[];
-  artsakh: string;
-  artsakhLabel: [number, number];
-  metsHaykLabel: [number, number];
   countries: {iso: string; name: string; d: string}[];
 };
 
@@ -26,7 +22,7 @@ const project = (lon: number, lat: number): [number, number] => [(lon - 15) * 40
 const LABELS: [string, number, number][] = [
   ['ՎՐԱՍՏԱՆ', 43.6, 42.1],
   ['ԱԴՐԲԵՋԱՆ', 49.3, 41.0],
-  ['ԹՈՒՐՔԻԱ', 36.8, 39.2],
+  ['ԹՈՒՐՔԻԱ', 36.6, 37.5],
   ['ԻՐԱՆ', 47.5, 37.6],
   ['ՌՈՒՍԱՍՏԱՆ', 46.0, 43.1],
   ['Սև ծով', 37.5, 42.8],
@@ -83,35 +79,8 @@ export const MapScene: React.FC<{scene: SceneData}> = ({scene}) => {
         {map.countries.map((c) =>
           c.iso === 'ARM' ? null : <path key={c.iso + c.name} d={c.d} fill="#1e2638" stroke="#3a4560" strokeWidth={1} />,
         )}
-        {/* Greater Armenia (Mets Hayk): muted, approximate historical extent */}
-        <path d={map.metsHayk} fill="#9aa1b3" fillOpacity={0.2 * hayk} stroke="#c3c8d4" strokeOpacity={0.7 * hayk} strokeWidth={vw / 500} strokeDasharray={`${vw / 120} ${vw / 180}`} />
-        {map.metsHaykProvinces.map((d, i) => (
-          <path key={i} d={d} fill="none" stroke="#c3c8d4" strokeOpacity={0.3 * hayk} strokeWidth={vw / 1100} />
-        ))}
-        <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1]} textAnchor="middle" fontFamily={font} fontWeight={800} fontSize={vw / 26} fill="#c3c8d4" opacity={hayk * (1 - 0.7 * z2)}>
-          Մեծ Հայք
-        </text>
-        <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1] + vw / 30} textAnchor="middle" fontFamily={font} fontWeight={500} fontSize={vw / 60} fill="#9aa1b3" opacity={hayk * (1 - 0.7 * z2)}>
-          պատմական տարածք · 15 նահանգ
-        </text>
-        {/* Armenia and Artsakh (its 1994-2020 extent, as in 1999) */}
-        {[...map.countries.filter((c) => c.iso === 'ARM').map((c) => c.d), map.artsakh].map((d, i) => (
-          <path key={i} d={d} fill="url(#armflag)" stroke="white" strokeWidth={2.5} opacity={interpolate(frame, [70, 100], [0.4, 1], clamp)} />
-        ))}
-        <text
-          x={map.artsakhLabel[0] + vw / 25}
-          y={map.artsakhLabel[1]}
-          fontFamily={font}
-          fontWeight={800}
-          fontSize={vw / 32}
-          fill="white"
-          stroke="#0d1830"
-          strokeWidth={vw / 250}
-          paintOrder="stroke"
-          opacity={interpolate(frame, [100, 120], [0, 1], clamp)}
-        >
-          Արցախ
-        </text>
+        {/* Gold Greater Armenia with Armenia + Artsakh (1994-2020 extent, as in 1999) in the flag's colours */}
+        <MetsHaykLayer vw={vw} hayk={hayk} home={interpolate(frame, [70, 100], [0, 1], clamp)} label={1 - 0.8 * z2} font={font} />
         {LABELS.map(([name, lon, lat]) => {
           const [x, y] = project(lon, lat);
           const sea = name.includes('ծով');

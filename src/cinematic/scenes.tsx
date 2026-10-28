@@ -3,6 +3,7 @@ import {AbsoluteFill, Easing, getStaticFiles, Img, interpolate, interpolateColor
 import mapData from '../data/map.json';
 import {clamp, Sfx, useShake} from '../fx';
 import {Candle, Deputy} from '../illustrations';
+import {MetsHaykLayer} from '../MetsHaykLayer';
 import {VICTIMS} from '../scenes/Victims';
 import {useFrame} from '../time';
 import {SceneData} from '../timeline';
@@ -52,15 +53,10 @@ export const CIntro: React.FC<Props> = ({scene}) => {
 };
 
 // ---------------------------------------------------------------- Map
-const map = mapData as {
+const map = mapData as unknown as {
   width: number;
   height: number;
   yerevan: [number, number];
-  metsHayk: string;
-  metsHaykProvinces: string[];
-  artsakh: string;
-  artsakhLabel: [number, number];
-  metsHaykLabel: [number, number];
   countries: {iso: string; name: string; d: string}[];
 };
 
@@ -105,45 +101,7 @@ export const CMap: React.FC<Props> = ({scene}) => {
         {map.countries.map((c) =>
           c.iso === 'ARM' ? null : <path key={c.iso + c.name} d={c.d} fill="#0e1016" stroke={cine.goldSoft} strokeOpacity={0.35} strokeWidth={vw / 900} />,
         )}
-        <path
-          d={map.metsHayk}
-          fill={cine.goldSoft}
-          fillOpacity={0.2 * hayk}
-          stroke={cine.goldSoft}
-          strokeOpacity={0.85 * hayk}
-          strokeWidth={vw / 600}
-          strokeDasharray={`${vw / 140} ${vw / 200}`}
-        />
-        {map.metsHaykProvinces.map((d, i) => (
-          <path key={i} d={d} fill="none" stroke={cine.goldSoft} strokeOpacity={0.35 * hayk} strokeWidth={vw / 1300} />
-        ))}
-        <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1]} textAnchor="middle" fontFamily={serif} fontWeight={500} fontStyle="italic" fontSize={vw / 22} fill={cine.cream} opacity={0.75 * hayk * (1 - 0.8 * z2)}>
-          Մեծ Հայք
-        </text>
-        <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1] + vw / 30} textAnchor="middle" fontFamily={sans} fontWeight={500} fontSize={vw / 75} letterSpacing={vw / 500} fill={cine.goldSoft} opacity={hayk * (1 - 0.8 * z2)}>
-          ՊԱՏՄԱԿԱՆ ՏԱՐԱԾՔ · 15 ՆԱՀԱՆԳ
-        </text>
-        {map.countries
-          .filter((c) => c.iso === 'ARM')
-          .map((c) => c.d)
-          .concat(map.artsakh)
-          .map((d, i) => (
-            <path
-              key={i}
-              d={d}
-              fill={cine.gold}
-              fillOpacity={0.12 * draw}
-              stroke={cine.gold}
-              strokeWidth={vw / 300}
-              pathLength={1}
-              strokeDasharray={1}
-              strokeDashoffset={1 - draw}
-              style={{filter: `drop-shadow(0 0 ${vw / 120}px ${cine.gold})`}}
-            />
-          ))}
-        <text x={map.artsakhLabel[0] + vw / 22} y={map.artsakhLabel[1]} fontFamily={serif} fontWeight={500} fontStyle="italic" fontSize={vw / 26} fill={cine.cream} opacity={0.9 * draw}>
-          Արցախ
-        </text>
+        <MetsHaykLayer vw={vw} hayk={hayk} home={draw} draw={draw} label={1 - 0.8 * z2} font={serif} />
         <circle cx={yx} cy={yy} r={(vw / 60) * glow} fill={cine.gold} opacity={0.25 * draw} />
         <circle cx={yx} cy={yy} r={vw / 220} fill={cine.cream} opacity={draw} />
       </svg>

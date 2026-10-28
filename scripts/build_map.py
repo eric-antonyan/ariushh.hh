@@ -15,8 +15,8 @@ YEREVAN = (44.5126, 40.1772)
 # Greater Armenia (Mets Hayk) outline and provinces, traced by scripts/trace_mets_hayk.py.
 DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'src', 'data')
 METS_HAYK = os.path.join(DATA, 'mets-hayk.json')
-# Republic of Artsakh as it was in 1999 (the 1994-2020 line), from Natural Earth v4.1.0 disputed areas.
-ARTSAKH = os.path.join(DATA, 'artsakh-1994.json')
+# Armenia and Artsakh as one outline (Artsakh's 1994-2020 extent, as in 1999), from scripts/build_armenia_artsakh.py.
+HOMELAND = os.path.join(DATA, 'armenia-artsakh.json')
 
 
 def project(lon, lat):
@@ -56,6 +56,8 @@ def main(src):
         countries.append({'iso': p['ISO_A3'] if p['ISO_A3'] != '-99' else p['ADM0_A3'], 'name': p['NAME'], 'd': d})
     w, h = project(LON_MAX, LAT_MIN)
     hayk = json.load(open(METS_HAYK))
+    homeland = json.load(open(HOMELAND))['ring']
+    xs, ys = zip(*(project(x, y) for x, y in homeland))
     out = {
         'width': w,
         'height': h,
@@ -63,8 +65,8 @@ def main(src):
         'metsHayk': ring_path(hayk['outline']),
         'metsHaykProvinces': [ring_path(r) for r in hayk['provinces']],
         'metsHaykLabel': project(40.2, 39.25),
-        'artsakh': ''.join(ring_path(r) for r in json.load(open(ARTSAKH))['rings']),
-        'artsakhLabel': project(46.4, 39.75),
+        'homeland': ring_path(homeland),
+        'homelandBox': [min(xs), min(ys), max(xs), max(ys)],
         'countries': countries,
     }
     json.dump(out, open('src/data/map.json', 'w'))
