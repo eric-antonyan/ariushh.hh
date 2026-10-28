@@ -14,6 +14,8 @@ const map = mapData as {
   yerevan: [number, number];
   metsHayk: string;
   metsHaykProvinces: string[];
+  artsakh: string;
+  artsakhLabel: [number, number];
   metsHaykLabel: [number, number];
   countries: {iso: string; name: string; d: string}[];
 };
@@ -92,16 +94,24 @@ export const MapScene: React.FC<{scene: SceneData}> = ({scene}) => {
         <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1] + vw / 30} textAnchor="middle" fontFamily={font} fontWeight={500} fontSize={vw / 60} fill="#9aa1b3" opacity={hayk * (1 - 0.7 * z2)}>
           պատմական տարածք · 15 նահանգ
         </text>
-        {map.countries.filter((c) => c.iso === 'ARM').map((c) => (
-          <path
-            key={c.iso + c.name}
-            d={c.d}
-            fill={c.iso === 'ARM' ? 'url(#armflag)' : '#1e2638'}
-            stroke={c.iso === 'ARM' ? 'white' : '#3a4560'}
-            strokeWidth={c.iso === 'ARM' ? 2.5 : 1}
-            opacity={c.iso === 'ARM' ? interpolate(frame, [70, 100], [0.4, 1], clamp) : 1}
-          />
+        {/* Armenia and Artsakh (its 1994-2020 extent, as in 1999) */}
+        {[...map.countries.filter((c) => c.iso === 'ARM').map((c) => c.d), map.artsakh].map((d, i) => (
+          <path key={i} d={d} fill="url(#armflag)" stroke="white" strokeWidth={2.5} opacity={interpolate(frame, [70, 100], [0.4, 1], clamp)} />
         ))}
+        <text
+          x={map.artsakhLabel[0] + vw / 25}
+          y={map.artsakhLabel[1]}
+          fontFamily={font}
+          fontWeight={800}
+          fontSize={vw / 32}
+          fill="white"
+          stroke="#0d1830"
+          strokeWidth={vw / 250}
+          paintOrder="stroke"
+          opacity={interpolate(frame, [100, 120], [0, 1], clamp)}
+        >
+          Արցախ
+        </text>
         {LABELS.map(([name, lon, lat]) => {
           const [x, y] = project(lon, lat);
           const sea = name.includes('ծով');

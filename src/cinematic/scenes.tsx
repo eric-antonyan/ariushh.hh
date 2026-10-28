@@ -58,6 +58,8 @@ const map = mapData as {
   yerevan: [number, number];
   metsHayk: string;
   metsHaykProvinces: string[];
+  artsakh: string;
+  artsakhLabel: [number, number];
   metsHaykLabel: [number, number];
   countries: {iso: string; name: string; d: string}[];
 };
@@ -123,10 +125,12 @@ export const CMap: React.FC<Props> = ({scene}) => {
         </text>
         {map.countries
           .filter((c) => c.iso === 'ARM')
-          .map((c) => (
+          .map((c) => c.d)
+          .concat(map.artsakh)
+          .map((d, i) => (
             <path
-              key="arm"
-              d={c.d}
+              key={i}
+              d={d}
               fill={cine.gold}
               fillOpacity={0.12 * draw}
               stroke={cine.gold}
@@ -137,6 +141,9 @@ export const CMap: React.FC<Props> = ({scene}) => {
               style={{filter: `drop-shadow(0 0 ${vw / 120}px ${cine.gold})`}}
             />
           ))}
+        <text x={map.artsakhLabel[0] + vw / 22} y={map.artsakhLabel[1]} fontFamily={serif} fontWeight={500} fontStyle="italic" fontSize={vw / 26} fill={cine.cream} opacity={0.9 * draw}>
+          Արցախ
+        </text>
         <circle cx={yx} cy={yy} r={(vw / 60) * glow} fill={cine.gold} opacity={0.25 * draw} />
         <circle cx={yx} cy={yy} r={vw / 220} fill={cine.cream} opacity={draw} />
       </svg>

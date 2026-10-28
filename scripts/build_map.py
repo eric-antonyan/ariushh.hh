@@ -13,7 +13,10 @@ SCALE = 40  # SVG units per degree of longitude
 YEREVAN = (44.5126, 40.1772)
 
 # Greater Armenia (Mets Hayk) outline and provinces, traced by scripts/trace_mets_hayk.py.
-METS_HAYK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'src', 'data', 'mets-hayk.json')
+DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'src', 'data')
+METS_HAYK = os.path.join(DATA, 'mets-hayk.json')
+# Republic of Artsakh as it was in 1999 (the 1994-2020 line), from Natural Earth v4.1.0 disputed areas.
+ARTSAKH = os.path.join(DATA, 'artsakh-1994.json')
 
 
 def project(lon, lat):
@@ -60,6 +63,8 @@ def main(src):
         'metsHayk': ring_path(hayk['outline']),
         'metsHaykProvinces': [ring_path(r) for r in hayk['provinces']],
         'metsHaykLabel': project(40.2, 39.25),
+        'artsakh': ''.join(ring_path(r) for r in json.load(open(ARTSAKH))['rings']),
+        'artsakhLabel': project(46.4, 39.75),
         'countries': countries,
     }
     json.dump(out, open('src/data/map.json', 'w'))
