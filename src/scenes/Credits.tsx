@@ -12,6 +12,7 @@ export const Credits: React.FC = () => {
   const photos = Object.entries(photoCredits as Record<string, string>).filter(([id, credit]) => credit && hasPhoto(id));
   const rows = [
     'Քարտեզ՝ Natural Earth (հանրային սեփականություն)',
+    'Մեծ Հայք՝ Tigran Ovanyan, Wikimedia Commons, CC BY-SA 4.0',
     'Երաժշտություն և ձայնային էֆեկտներ՝ ծրագրային սինթեզ',
     usesHumanVoice ? 'Ձայն՝ մարդկային ձայնագրություն' : 'Ձայն՝ eSpeak NG (սինթետիկ)',
     ...photos.map(([, credit]) => `Լուսանկար՝ ${credit}`),

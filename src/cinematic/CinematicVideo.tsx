@@ -14,6 +14,7 @@ const CCredits: React.FC = () => (
     {[
       'Պատմում է՝ հեղինակը',
       'Քարտեզ՝ Natural Earth',
+      'Մեծ Հայք՝ Tigran Ovanyan, Wikimedia Commons, CC BY-SA 4.0',
       'Երաժշտություն և էֆեկտներ՝ ծրագրային սինթեզ',
       'Տառատեսակներ՝ Cormorant Garamond, Noto Serif Armenian, Montserrat',
     ]

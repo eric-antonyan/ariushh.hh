@@ -57,6 +57,7 @@ const map = mapData as {
   height: number;
   yerevan: [number, number];
   metsHayk: string;
+  metsHaykProvinces: string[];
   metsHaykLabel: [number, number];
   countries: {iso: string; name: string; d: string}[];
 };
@@ -86,8 +87,8 @@ export const CMap: React.FC<Props> = ({scene}) => {
   const z2 = interpolate(frame, [90, 140], [0, 1], {...clamp, easing: ease});
   const vw = 1500 + (600 - 1500) * z1 + (270 - 600) * z2;
   const vh = vw * (1920 / 1080);
-  const hx = (43.9 - 15) * 40 * Math.cos((41 * Math.PI) / 180);
-  const hy = (58 - 39.3) * 40;
+  const hx = (42.2 - 15) * 40 * Math.cos((41 * Math.PI) / 180);
+  const hy = (58 - 39.6) * 40;
   const cx = hx + (yx - hx) * z2;
   const cy = hy + (yy - hy) * z2 + vh * 0.08;
   const hayk = interpolate(frame, [30, 70], [0, 1], clamp);
@@ -111,11 +112,14 @@ export const CMap: React.FC<Props> = ({scene}) => {
           strokeWidth={vw / 600}
           strokeDasharray={`${vw / 140} ${vw / 200}`}
         />
+        {map.metsHaykProvinces.map((d, i) => (
+          <path key={i} d={d} fill="none" stroke={cine.goldSoft} strokeOpacity={0.35 * hayk} strokeWidth={vw / 1300} />
+        ))}
         <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1]} textAnchor="middle" fontFamily={serif} fontWeight={500} fontStyle="italic" fontSize={vw / 22} fill={cine.cream} opacity={0.75 * hayk * (1 - 0.8 * z2)}>
           Մեծ Հայք
         </text>
         <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1] + vw / 30} textAnchor="middle" fontFamily={sans} fontWeight={500} fontSize={vw / 75} letterSpacing={vw / 500} fill={cine.goldSoft} opacity={hayk * (1 - 0.8 * z2)}>
-          ՊԱՏՄԱԿԱՆ ՏԱՐԱԾՔ · ՄՈՏԱՎՈՐ
+          ՊԱՏՄԱԿԱՆ ՏԱՐԱԾՔ · 15 ՆԱՀԱՆԳ
         </text>
         {map.countries
           .filter((c) => c.iso === 'ARM')

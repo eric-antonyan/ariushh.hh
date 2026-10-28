@@ -13,6 +13,7 @@ const map = mapData as {
   height: number;
   yerevan: [number, number];
   metsHayk: string;
+  metsHaykProvinces: string[];
   metsHaykLabel: [number, number];
   countries: {iso: string; name: string; d: string}[];
 };
@@ -46,7 +47,7 @@ export const MapScene: React.FC<{scene: SceneData}> = ({scene}) => {
   const tightW = vertical ? 380 : 640;
   const vw = wideW + (midW - wideW) * z1 + (tightW - midW) * z2;
   const vh = vw / aspect;
-  const [hx, hy] = project(43.9, 39.3);
+  const [hx, hy] = project(42.2, 39.6);
   // Keep the focus slightly off-centre so cards have room.
   const cx = hx + (yx - hx) * z2 + (vertical ? 0 : vw * 0.18);
   const cy = hy + (yy - hy) * z2 + (vertical ? vh * 0.2 : 0);
@@ -82,11 +83,14 @@ export const MapScene: React.FC<{scene: SceneData}> = ({scene}) => {
         )}
         {/* Greater Armenia (Mets Hayk): muted, approximate historical extent */}
         <path d={map.metsHayk} fill="#9aa1b3" fillOpacity={0.2 * hayk} stroke="#c3c8d4" strokeOpacity={0.7 * hayk} strokeWidth={vw / 500} strokeDasharray={`${vw / 120} ${vw / 180}`} />
+        {map.metsHaykProvinces.map((d, i) => (
+          <path key={i} d={d} fill="none" stroke="#c3c8d4" strokeOpacity={0.3 * hayk} strokeWidth={vw / 1100} />
+        ))}
         <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1]} textAnchor="middle" fontFamily={font} fontWeight={800} fontSize={vw / 26} fill="#c3c8d4" opacity={hayk * (1 - 0.7 * z2)}>
           Մեծ Հայք
         </text>
         <text x={map.metsHaykLabel[0]} y={map.metsHaykLabel[1] + vw / 30} textAnchor="middle" fontFamily={font} fontWeight={500} fontSize={vw / 60} fill="#9aa1b3" opacity={hayk * (1 - 0.7 * z2)}>
-          պատմական տարածք (մոտավոր)
+          պատմական տարածք · 15 նահանգ
         </text>
         {map.countries.filter((c) => c.iso === 'ARM').map((c) => (
           <path
