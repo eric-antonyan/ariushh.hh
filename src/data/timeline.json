@@ -1,199 +1,199 @@
 {
  "fps": 30,
- "total": 4677,
+ "total": 3656,
  "scenes": [
   {
    "id": "intro",
    "from": 0,
-   "duration": 418,
+   "duration": 366,
    "lines": [
     {
      "text": "1999 թվականի հոկտեմբերի 27։",
-     "audio": "audio/voice/intro_1.wav",
+     "audio": "audio/voice-human/intro_1.wav",
      "start": 70,
-     "duration": 173,
-     "human": false
+     "duration": 143,
+     "human": true
     },
     {
      "text": "Մի օր, որը փոխեց Հայաստանի պատմությունը։",
-     "audio": "audio/voice/intro_2.wav",
-     "start": 255,
-     "duration": 128,
-     "human": false
+     "audio": "audio/voice-human/intro_2.wav",
+     "start": 225,
+     "duration": 106,
+     "human": true
     }
    ]
   },
   {
    "id": "map",
-   "from": 418,
-   "duration": 351,
+   "from": 366,
+   "duration": 260,
    "lines": [
     {
      "text": "Երևան։ Հայաստանի Ազգային ժողով։",
-     "audio": "audio/voice/map_1.wav",
+     "audio": "audio/voice-human/map_1.wav",
      "start": 30,
-     "duration": 121,
-     "human": false
+     "duration": 81,
+     "human": true
     },
     {
      "text": "Մայիսյան ընտրություններում հաղթել էր «Միասնություն» դաշինքը։",
-     "audio": "audio/voice/map_2.wav",
-     "start": 163,
-     "duration": 153,
-     "human": false
+     "audio": "audio/voice-human/map_2.wav",
+     "start": 123,
+     "duration": 102,
+     "human": true
     }
    ]
   },
   {
    "id": "leaders",
-   "from": 769,
-   "duration": 623,
+   "from": 626,
+   "duration": 432,
    "lines": [
     {
      "text": "Վարչապետ էր դարձել Վազգեն Սարգսյանը՝ Ղարաբաղյան պատերազմի հերոսն ու նախկին պաշտպանության նախարարը։",
-     "audio": "audio/voice/leaders_1.wav",
+     "audio": "audio/voice-human/leaders_1.wav",
      "start": 30,
-     "duration": 287,
-     "human": false
+     "duration": 191,
+     "human": true
     },
     {
      "text": "Ազգային ժողովի նախագահ էր ընտրվել Կարեն Դեմիրճյանը՝ Խորհրդային Հայաստանի նախկին ղեկավարը։",
-     "audio": "audio/voice/leaders_2.wav",
-     "start": 329,
-     "duration": 259,
-     "human": false
+     "audio": "audio/voice-human/leaders_2.wav",
+     "start": 233,
+     "duration": 164,
+     "human": true
     }
    ]
   },
   {
    "id": "attack",
-   "from": 1392,
-   "duration": 878,
+   "from": 1058,
+   "duration": 701,
    "lines": [
     {
      "text": "Հոկտեմբերի 27-ի երեկոյան խորհրդարանում նիստ էր ընթանում, տեսախցիկները նկարահանում էին։",
-     "audio": "audio/voice/attack_1.wav",
+     "audio": "audio/voice-human/attack_1.wav",
      "start": 40,
-     "duration": 258,
-     "human": false
+     "duration": 212,
+     "human": true
     },
     {
      "text": "Մոտ ժամը 17:15-ին հինգ զինված անձինք՝ Նաիրի Հունանյանի գլխավորությամբ, ներխուժեցին դահլիճ և կրակ բացեցին։",
-     "audio": "audio/voice/attack_2.wav",
-     "start": 310,
-     "duration": 349,
-     "human": false
+     "audio": "audio/voice-human/attack_2.wav",
+     "start": 264,
+     "duration": 262,
+     "human": true
     },
     {
      "text": "Վարչապետ Վազգեն Սարգսյանը սպանվեց տեղում։",
-     "audio": "audio/voice/attack_3.wav",
-     "start": 671,
-     "duration": 132,
-     "human": false
+     "audio": "audio/voice-human/attack_3.wav",
+     "start": 538,
+     "duration": 88,
+     "human": true
     }
    ]
   },
   {
    "id": "victims",
-   "from": 2270,
-   "duration": 366,
+   "from": 1759,
+   "duration": 304,
    "lines": [
     {
      "text": "Զոհվեց ութ մարդ։",
-     "audio": "audio/voice/victims_1.wav",
+     "audio": "audio/voice-human/victims_1.wav",
      "start": 30,
-     "duration": 58,
-     "human": false
+     "duration": 54,
+     "human": true
     },
     {
      "text": "Նրանց թվում էին խորհրդարանի նախագահը, երկու փոխնախագահները և մեկ նախարար։",
-     "audio": "audio/voice/victims_2.wav",
-     "start": 100,
-     "duration": 231,
-     "human": false
+     "audio": "audio/voice-human/victims_2.wav",
+     "start": 96,
+     "duration": 173,
+     "human": true
     }
    ]
   },
   {
    "id": "siege",
-   "from": 2636,
-   "duration": 732,
+   "from": 2063,
+   "duration": 540,
    "lines": [
     {
      "text": "Ամբողջ գիշեր զինյալները պատանդ էին պահում տասնյակ պատգամավորների և պաշտոնյաների։",
-     "audio": "audio/voice/siege_1.wav",
+     "audio": "audio/voice-human/siege_1.wav",
      "start": 30,
-     "duration": 228,
-     "human": false
+     "duration": 151,
+     "human": true
     },
     {
      "text": "Նախագահ Ռոբերտ Քոչարյանը անձամբ բանակցում էր նրանց հետ։",
-     "audio": "audio/voice/siege_2.wav",
-     "start": 270,
-     "duration": 164,
-     "human": false
+     "audio": "audio/voice-human/siege_2.wav",
+     "start": 193,
+     "duration": 111,
+     "human": true
     },
     {
      "text": "Հոկտեմբերի 28-ի առավոտյան պատանդներն ազատ արձակվեցին, իսկ զինյալները հանձնվեցին։",
-     "audio": "audio/voice/siege_3.wav",
-     "start": 446,
-     "duration": 251,
-     "human": false
+     "audio": "audio/voice-human/siege_3.wav",
+     "start": 316,
+     "duration": 189,
+     "human": true
     }
    ]
   },
   {
    "id": "aftermath",
-   "from": 3368,
-   "duration": 801,
+   "from": 2603,
+   "duration": 607,
    "lines": [
     {
      "text": "2003 թվականին Նաիրի Հունանյանը և նրա հանցակիցները դատապարտվեցին ցմահ ազատազրկման։",
-     "audio": "audio/voice/aftermath_1.wav",
+     "audio": "audio/voice-human/aftermath_1.wav",
      "start": 30,
-     "duration": 289,
-     "human": false
+     "duration": 198,
+     "human": true
     },
     {
      "text": "Հայաստանը մեկ օրում կորցրեց իր երկու ամենաազդեցիկ ղեկավարներին։",
-     "audio": "audio/voice/aftermath_2.wav",
-     "start": 331,
-     "duration": 185,
-     "human": false
+     "audio": "audio/voice-human/aftermath_2.wav",
+     "start": 240,
+     "duration": 150,
+     "human": true
     },
     {
      "text": "Թե արդյոք որևէ մեկը կանգնած էր հանցագործների թիկունքում, մինչ օրս վիճելի հարց է։",
-     "audio": "audio/voice/aftermath_3.wav",
-     "start": 528,
-     "duration": 238,
-     "human": false
+     "audio": "audio/voice-human/aftermath_3.wav",
+     "start": 402,
+     "duration": 170,
+     "human": true
     }
    ]
   },
   {
    "id": "memorial",
-   "from": 4169,
-   "duration": 328,
+   "from": 3210,
+   "duration": 266,
    "lines": [
     {
      "text": "Հոկտեմբերի 27-ը Հայաստանում սգո օր է։",
-     "audio": "audio/voice/memorial_1.wav",
+     "audio": "audio/voice-human/memorial_1.wav",
      "start": 30,
-     "duration": 129,
-     "human": false
+     "duration": 89,
+     "human": true
     },
     {
      "text": "Հիշենք զոհվածներին։",
-     "audio": "audio/voice/memorial_2.wav",
-     "start": 171,
-     "duration": 67,
-     "human": false
+     "audio": "audio/voice-human/memorial_2.wav",
+     "start": 131,
+     "duration": 45,
+     "human": true
     }
    ]
   },
   {
    "id": "credits",
-   "from": 4497,
+   "from": 3476,
    "duration": 180,
    "lines": []
   }
