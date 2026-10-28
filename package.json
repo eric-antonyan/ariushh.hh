@@ -1,0 +1,20 @@
+{
+  "name": "oct27-1999-motion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Motion-graphics documentary summary of the 27 October 1999 Armenian parliament shooting, built with Remotion",
+  "scripts": {
+    "start": "remotion studio",
+    "render": "remotion render Oct27 out/oct27-1999.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.539",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.539"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.12",
+    "typescript": "5.6.3"
+  }
+}
