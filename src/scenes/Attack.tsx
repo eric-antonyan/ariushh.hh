@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {useFrame} from '../time';
+import {AbsoluteFill, interpolate} from 'remotion';
 import {clamp, Flash, Label, Pop, Rise, Sfx, useShake} from '../fx';
 import {Clock, Deputy, Silhouette, Static, TV} from '../illustrations';
 import {pick, useLayout} from '../layout';
@@ -8,7 +9,7 @@ import {SceneData} from '../timeline';
 
 // Cartoon parliament hall drawn inside the TV.
 const Hall: React.FC<{intrude: number; chaos: number}> = ({intrude, chaos}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const rows = [
     {y: 150, n: 9, r: 260},
     {y: 190, n: 11, r: 320},
@@ -49,7 +50,7 @@ const Hall: React.FC<{intrude: number; chaos: number}> = ({intrude, chaos}) => {
 };
 
 export const Attack: React.FC<{scene: SceneData}> = ({scene}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {vertical, width} = useLayout();
   const [l1, l2, l3] = scene.lines;
   const enterAt = l2.start + Math.round(l2.duration * 0.35);

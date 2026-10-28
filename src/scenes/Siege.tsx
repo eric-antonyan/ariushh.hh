@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, interpolateColors, random, useCurrentFrame} from 'remotion';
+import {useFrame} from '../time';
+import {AbsoluteFill, interpolate, interpolateColors, random} from 'remotion';
 import {clamp, Label, Pop, Sfx} from '../fx';
 import {Clock, Dove, Parliament, PoliceCar} from '../illustrations';
 import {pick, useLayout} from '../layout';
@@ -38,7 +39,7 @@ const Bubble: React.FC<{text: string; side: 'left' | 'right'; size: number}> = (
 );
 
 export const Siege: React.FC<{scene: SceneData}> = ({scene}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {vertical, width, height} = useLayout();
   const [, l2, l3] = scene.lines;
   const dawn = interpolate(frame, [l3.start, l3.start + 60], [0, 1], clamp);

@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {useFrame} from '../time';
+import {AbsoluteFill, interpolate} from 'remotion';
 import {clamp, Dust, Pop, Rise, Sfx} from '../fx';
 import {Candle} from '../illustrations';
 import {pick, useLayout} from '../layout';
@@ -8,7 +9,7 @@ import {SceneData} from '../timeline';
 import {VICTIMS} from './Victims';
 
 export const Memorial: React.FC<{scene: SceneData}> = ({scene}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {vertical} = useLayout();
   const [l1, l2] = scene.lines;
   const cols = vertical ? 4 : 8;

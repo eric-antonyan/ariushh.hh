@@ -1,5 +1,6 @@
 import React from 'react';
-import {Audio, interpolate, Sequence, staticFile} from 'remotion';
+import {Audio, interpolate, Sequence, staticFile, useVideoConfig} from 'remotion';
+import {BASE_FPS, useToFrames} from './time';
 import {timeline} from './timeline';
 
 const voice = timeline.scenes.flatMap((s) => s.lines.map((l) => ({src: l.audio, from: s.from + l.start, duration: l.duration})));
@@ -15,13 +16,17 @@ const musicVolume = (f: number) => {
   return (0.5 - 0.3 * duck) * fadeOut;
 };
 
-export const Soundtrack: React.FC = () => (
-  <>
-    <Audio src={staticFile('audio/music.wav')} volume={musicVolume} />
-    {voice.map((v) => (
-      <Sequence key={v.src} from={v.from} durationInFrames={v.duration} layout="none">
-        <Audio src={staticFile(v.src)} volume={1} />
-      </Sequence>
-    ))}
-  </>
-);
+export const Soundtrack: React.FC = () => {
+  const {fps} = useVideoConfig();
+  const toFrames = useToFrames();
+  return (
+    <>
+      <Audio src={staticFile('audio/music.wav')} volume={(f) => musicVolume((f * BASE_FPS) / fps)} />
+      {voice.map((v) => (
+        <Sequence key={v.src} from={toFrames(v.from)} durationInFrames={toFrames(v.duration)} layout="none">
+          <Audio src={staticFile(v.src)} volume={1} />
+        </Sequence>
+      ))}
+    </>
+  );
+};

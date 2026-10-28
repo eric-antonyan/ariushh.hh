@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, Easing, interpolate, useCurrentFrame} from 'remotion';
+import {useFrame} from '../time';
+import {AbsoluteFill, Easing, interpolate} from 'remotion';
 import mapData from '../data/map.json';
 import {clamp, Label, Pop, Sfx, useSpring} from '../fx';
 import {BallotBox, Parliament} from '../illustrations';
@@ -23,7 +24,7 @@ const LABELS: [string, number, number][] = [
 ];
 
 export const MapScene: React.FC<{scene: SceneData}> = ({scene}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {vertical, width, height} = useLayout();
   const l2 = scene.lines[1].start;
   const [yx, yy] = map.yerevan;

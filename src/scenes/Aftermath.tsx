@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {useFrame} from '../time';
+import {AbsoluteFill, interpolate} from 'remotion';
 import {clamp, Label, Pop, Sfx, useSpring} from '../fx';
 import {Gavel, Newspaper, Polaroid} from '../illustrations';
 import {pick, useLayout} from '../layout';
@@ -7,7 +8,7 @@ import {colors, font} from '../theme';
 import {SceneData} from '../timeline';
 
 export const Aftermath: React.FC<{scene: SceneData}> = ({scene}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {vertical} = useLayout();
   const [l1, l2, l3] = scene.lines;
   const hits = [l1.start + 40, l1.start + 58, l1.start + 76];

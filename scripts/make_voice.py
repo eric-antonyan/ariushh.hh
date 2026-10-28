@@ -37,11 +37,15 @@ def human_recording(name):
 
 def synthesise(text, dest):
     raw = dest + '.raw.wav'
-    subprocess.check_call(['espeak-ng', '-v', 'hy+m3', '-s', '160', '-p', '42', '-g', '4', '-w', raw, text])
-    # Warm the robotic tone a little: band-limit, light room echo, loudness normalise.
+    # Klatt synthesis sounds less buzzy than the default; slightly slower with a lower pitch.
+    subprocess.check_call(['espeak-ng', '-v', 'hy+klatt4', '-s', '148', '-p', '38', '-g', '3', '-w', raw, text])
+    # Make it sound less synthetic: resample, warm EQ, de-ess, gentle compression, short room reverb.
     subprocess.check_call([
         'ffmpeg', '-v', 'error', '-y', '-i', raw, '-af',
-        'highpass=f=90,lowpass=f=7000,aecho=0.8:0.6:40:0.15,loudnorm=I=-16:TP=-1.5,aresample=44100',
+        'aresample=44100,highpass=f=80,lowpass=f=6500,'
+        'equalizer=f=180:t=q:w=1:g=3,equalizer=f=3200:t=q:w=1.5:g=-3,equalizer=f=6000:t=q:w=2:g=-4,'
+        'acompressor=threshold=-20dB:ratio=3:attack=8:release=120,'
+        'aecho=0.85:0.5:28|55:0.12|0.07,loudnorm=I=-16:TP=-1.5',
         '-ac', '2', dest,
     ])
     os.remove(raw)

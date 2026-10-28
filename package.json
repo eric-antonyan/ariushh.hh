@@ -2,12 +2,11 @@
   "name": "oct27-1999-motion",
   "version": "1.0.0",
   "private": true,
-  "description": "Armenian motion-graphics documentary of the 27 October 1999 parliament shooting (landscape + reel), built with Remotion",
+  "description": "Armenian 9:16 motion-graphics reel (60 fps) about the 27 October 1999 parliament shooting, built with Remotion",
   "scripts": {
     "start": "remotion studio",
     "assets": "python3 scripts/make_voice.py && python3 scripts/make_audio.py",
-    "render": "remotion render Oct27 out/oct27-1999.mp4",
-    "render:reel": "remotion render Oct27Reel out/oct27-1999-reel.mp4"
+    "render": "remotion render Oct27Reel out/oct27-1999-reel-60fps.mp4"
   },
   "dependencies": {
     "@remotion/cli": "4.0.539",

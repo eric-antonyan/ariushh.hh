@@ -1,11 +1,12 @@
 import React from 'react';
-import {getStaticFiles, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {useFrame} from './time';
+import {getStaticFiles, Img, interpolate, staticFile} from 'remotion';
 import {clamp} from './fx';
 import {colors, font, tricolor} from './theme';
 
 // Flat cartoon of the National Assembly building with a waving flag. `lit` 0..1 lights the windows.
 export const Parliament: React.FC<{width: number; lit?: number; flicker?: boolean}> = ({width, lit = 0, flicker = false}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const wave = (i: number) => Math.sin(frame / 6 + i) * 4;
   return (
     <svg width={width} height={width * 0.62} viewBox="0 0 500 310">
@@ -52,7 +53,7 @@ export const Silhouette: React.FC<{height: number; walking?: boolean; phase?: nu
   phase = 0,
   color = '#05060a',
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const s = walking ? Math.sin(frame / 3.2 + phase) : 0;
   const bob = walking ? Math.abs(Math.cos(frame / 3.2 + phase)) * 4 : 0;
   return (
@@ -76,7 +77,7 @@ export const Deputy: React.FC<{x: number; y: number; scale?: number; color?: str
   color = '#8a93a8',
   seed = 0,
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const nod = Math.sin(frame / (14 + (seed % 5)) + seed) * 1.5;
   return (
     <g transform={`translate(${x} ${y + nod}) scale(${scale})`}>
@@ -87,7 +88,7 @@ export const Deputy: React.FC<{x: number; y: number; scale?: number; color?: str
 };
 
 export const Candle: React.FC<{size: number; lit: number}> = ({size, lit}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const flick = 1 + Math.sin(frame / 2.7) * 0.06 + Math.sin(frame / 6.1) * 0.05;
   const sway = Math.sin(frame / 9) * 2;
   return (
@@ -113,7 +114,7 @@ export const Candle: React.FC<{size: number; lit: number}> = ({size, lit}) => {
 };
 
 export const Dove: React.FC<{size: number; phase?: number}> = ({size, phase = 0}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const flap = Math.sin(frame / 2 + phase);
   return (
     <svg width={size} height={size * 0.7} viewBox="0 0 60 42" style={{overflow: 'visible'}}>
@@ -127,7 +128,7 @@ export const Dove: React.FC<{size: number; phase?: number}> = ({size, phase = 0}
 };
 
 export const PoliceCar: React.FC<{width: number; phase?: number}> = ({width, phase = 0}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const on = Math.floor(frame / 5 + phase) % 2 === 0;
   const bounce = Math.abs(Math.sin(frame / 5 + phase)) * 2;
   return (
@@ -149,7 +150,7 @@ export const PoliceCar: React.FC<{width: number; phase?: number}> = ({width, pha
 };
 
 export const BallotBox: React.FC<{size: number; drops: number[]}> = ({size, drops}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   return (
     <svg width={size} height={size} viewBox="0 0 100 100" style={{overflow: 'visible'}}>
       {drops.map((at, i) => {
@@ -173,7 +174,7 @@ export const BallotBox: React.FC<{size: number; drops: number[]}> = ({size, drop
 };
 
 export const Gavel: React.FC<{size: number; hits: number[]}> = ({size, hits}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   // Swing up between hits, slam down on each hit frame.
   const angle = hits.reduce((acc, h) => {
     const d = frame - h;
@@ -227,7 +228,7 @@ export const Polaroid: React.FC<{id: string; initials: string; width: number; ca
   mourning = 0,
   accent = colors.red,
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const src = photoFor(id);
   const zoom = 1.05 + frame * 0.0006;
   const h = width * 1.1;
@@ -272,7 +273,7 @@ export const Polaroid: React.FC<{id: string; initials: string; width: number; ca
 
 // Old CRT television that frames its children.
 export const TV: React.FC<{width: number; children: React.ReactNode; live?: boolean}> = ({width, children, live = true}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const h = width * 0.66;
   return (
     <div style={{width, position: 'relative'}}>
@@ -305,7 +306,7 @@ export const TV: React.FC<{width: number; children: React.ReactNode; live?: bool
 };
 
 export const Static: React.FC<{opacity: number}> = ({opacity}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   return (
     <svg width="100%" height="100%" style={{position: 'absolute', inset: 0, opacity}}>
       <filter id="static">

@@ -1,21 +1,24 @@
 import React from 'react';
-import {AbsoluteFill, Audio, interpolate, random, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig} from 'remotion';
+import {BASE_FPS, useFrame, useToFrames} from './time';
+import {AbsoluteFill, Audio, interpolate, random, Sequence, spring, staticFile, useVideoConfig} from 'remotion';
 import {colors, font, tricolor} from './theme';
 
 export const clamp = {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'} as const;
 
 // Plays a sound effect from public/audio/<name>.wav, `at` frames into the current Sequence.
-export const Sfx: React.FC<{name: string; at: number; volume?: number}> = ({name, at, volume = 0.5}) => (
-  <Sequence from={Math.round(at)} layout="none">
-    <Audio src={staticFile(`audio/${name}.wav`)} volume={volume} />
-  </Sequence>
-);
+export const Sfx: React.FC<{name: string; at: number; volume?: number}> = ({name, at, volume = 0.5}) => {
+  const toFrames = useToFrames();
+  return (
+    <Sequence from={toFrames(at)} layout="none">
+      <Audio src={staticFile(`audio/${name}.wav`)} volume={volume} />
+    </Sequence>
+  );
+};
 
 // Spring that starts `delay` frames into the scene.
 export const useSpring = (delay: number, config: Partial<{damping: number; stiffness: number; mass: number}> = {}) => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
-  return spring({frame: frame - delay, fps, config: {damping: 12, stiffness: 120, ...config}});
+  const frame = useFrame();
+  return spring({frame: frame - delay, fps: BASE_FPS, config: {damping: 12, stiffness: 120, ...config}});
 };
 
 // Cartoon "pop": overshooting scale with a little squash and stretch.
@@ -25,7 +28,7 @@ export const Pop: React.FC<{delay: number; children: React.ReactNode; style?: Re
   style,
   origin = 'center',
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const p = useSpring(delay, {damping: 9, stiffness: 140});
   const wobble = frame > delay ? Math.sin((frame - delay) / 2.2) * Math.exp(-(frame - delay) / 10) * 0.12 : 0;
   return (
@@ -60,7 +63,7 @@ export const Typewriter: React.FC<{text: string; delay: number; speed?: number; 
   speed = 1.5,
   style,
 }) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const chars = Array.from(text);
   const n = Math.max(0, Math.floor((frame - delay) / speed));
   return (
@@ -73,7 +76,7 @@ export const Typewriter: React.FC<{text: string; delay: number; speed?: number; 
 
 // Camera shake offsets for a burst starting at `at`.
 export const useShake = (at: number, strength = 30, length = 25) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const k = interpolate(frame - at, [0, length], [1, 0], clamp) * (frame >= at ? 1 : 0);
   return {
     x: (random(`sx${frame}`) - 0.5) * 2 * strength * k,
@@ -83,13 +86,13 @@ export const useShake = (at: number, strength = 30, length = 25) => {
 };
 
 export const Flash: React.FC<{at: number; color?: string; length?: number}> = ({at, color = 'white', length = 14}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const o = interpolate(frame - at, [0, 2, length], [0, 1, 0], clamp);
   return <AbsoluteFill style={{background: color, opacity: o, pointerEvents: 'none'}} />;
 };
 
 export const Grain: React.FC<{opacity?: number}> = ({opacity = 0.08}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   return (
     <AbsoluteFill style={{opacity, mixBlendMode: 'overlay', pointerEvents: 'none'}}>
       <svg width="100%" height="100%">
@@ -108,7 +111,7 @@ export const Vignette: React.FC = () => (
 
 // Slowly drifting dust particles.
 export const Dust: React.FC<{count?: number; color?: string}> = ({count = 40, color = colors.apricot}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {width, height} = useVideoConfig();
   return (
     <AbsoluteFill style={{pointerEvents: 'none'}}>
@@ -139,7 +142,7 @@ export const Dust: React.FC<{count?: number; color?: string}> = ({count = 40, co
 
 // Tricolour bars sweeping across the frame, used between scenes. Covers fully at frame `length / 2`.
 export const StripeWipe: React.FC<{length?: number}> = ({length = 26}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {width, height} = useVideoConfig();
   const diag = width + height;
   return (
@@ -183,7 +186,7 @@ export const Title: React.FC<{children: React.ReactNode; size?: number; style?: 
 
 // Hanging-from-a-pin pendulum swing that settles.
 export const useSwing = (delay: number, amplitude = 18) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const t = Math.max(0, frame - delay);
   return amplitude * Math.exp(-t / 18) * Math.cos(t / 4.5);
 };

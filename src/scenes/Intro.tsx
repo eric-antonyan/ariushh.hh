@@ -1,12 +1,13 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {useFrame} from '../time';
+import {AbsoluteFill, interpolate} from 'remotion';
 import {clamp, Dust, Label, Pop, Rise, Sfx, Typewriter, useSpring} from '../fx';
 import {pick, useLayout} from '../layout';
 import {colors, font, tricolor} from '../theme';
 import {SceneData} from '../timeline';
 
 export const Intro: React.FC<{scene: SceneData}> = ({scene}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {vertical} = useLayout();
   const l2 = scene.lines[1].start;
 

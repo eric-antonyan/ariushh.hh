@@ -1,5 +1,6 @@
 import React from 'react';
-import {spring, useCurrentFrame, useVideoConfig} from 'remotion';
+import {BASE_FPS, useFrame} from './time';
+import {spring} from 'remotion';
 import {pick, useLayout} from './layout';
 import {colors, font} from './theme';
 import {timeline} from './timeline';
@@ -26,8 +27,7 @@ const chunk = (words: string[], maxChars: number) => {
 
 // Word-by-word karaoke captions. Word timing is estimated from word length.
 export const Captions: React.FC = () => {
-  const frame = useCurrentFrame();
-  const {fps} = useVideoConfig();
+  const frame = useFrame();
   const {vertical, captionTop} = useLayout();
   const line = lines.find((l) => frame >= l.start && frame < l.start + l.duration + 6);
   if (!line) return null;
@@ -49,7 +49,7 @@ export const Captions: React.FC = () => {
   const ci = chunks.findIndex((c) => c.includes(current));
   const chunkStartWord = chunks[ci][0];
   const chunkStartFrame = line.start + (weights.slice(0, chunkStartWord).reduce((a, b) => a + b, 0) / total) * line.duration;
-  const pop = spring({frame: frame - chunkStartFrame, fps, config: {damping: 12, stiffness: 200}});
+  const pop = spring({frame: frame - chunkStartFrame, fps: BASE_FPS, config: {damping: 12, stiffness: 200}});
 
   return (
     <div style={{position: 'absolute', left: 0, right: 0, top: captionTop, height: pick(vertical, 400, 170), display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 60px'}}>

@@ -1,5 +1,6 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import {useFrame} from '../time';
+import {AbsoluteFill, interpolate} from 'remotion';
 import {clamp, Dust, Label, Pop, Sfx} from '../fx';
 import {pick, useLayout} from '../layout';
 import {colors, font} from '../theme';
@@ -23,7 +24,7 @@ const Ribbon: React.FC<{size: number}> = ({size}) => (
 );
 
 export const Victims: React.FC<{scene: SceneData}> = ({scene}) => {
-  const frame = useCurrentFrame();
+  const frame = useFrame();
   const {vertical} = useLayout();
   const start = scene.lines[0].start + 10;
   const cols = vertical ? 2 : 4;
